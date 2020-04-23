@@ -24,10 +24,12 @@ The project goal is to develop a framework to predict if a biological sequence b
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CNN (from keras.layers.convolutional)
+
+
 6. Performance evaluation
 
 
-<br /><br /><br />
+<br /><br />
 **Code snippets to develop a framework :**
 
 **Drop Duplicates:**
