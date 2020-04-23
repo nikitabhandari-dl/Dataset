@@ -6,9 +6,6 @@ python packages: pandas, numpy, math, keras, sklearn, matplotlib
 
 jupyter notebook
 
-**Datasets**
-
-link:
 
 **Steps to follow:**
 
@@ -20,15 +17,17 @@ The project goal is to develop a framework to predict if a biological sequence b
 4. Frequency based tokenization
 5. Building and training classification algorithms:
 
-RandomForestClassifier (from sklearn.ensemble)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RandomForestClassifier (from sklearn.ensemble)
 
-LSTM (from keras.layer)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LSTM (from keras.layer)
 
-CNN (from keras.layers.convolutional)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CNN (from keras.layers.convolutional)
 
-1. Performance evaluation
+6. Performance evaluation
 
-**Code snippets to develop a framework**
+
+
+**Code snippets to develop a framework :**
 
 **Drop Duplicates:**
 
