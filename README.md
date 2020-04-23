@@ -16,8 +16,13 @@ The project goal is to develop a framework to predict if a biological sequence b
 3. Perform k-merization.
 4. Frequency based tokenization
 5. Building and training classification algorithms:
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RandomForestClassifier (from sklearn.ensemble)
+
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LSTM (from keras.layer)
+
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CNN (from keras.layers.convolutional)
 6. Performance evaluation
 
