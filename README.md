@@ -6,7 +6,8 @@ jupyter notebook
 
 #Steps to follow:
 
-        The project goal is to develop a framework to predict if a biological sequence belongs to a       promoter or non-promoter category. Steps are as follows:
+        The project goal is to develop a framework to predict if a biological sequence belongs to a 
+        promoter or non-promoter category. Steps are as follows:
         1.	Remove duplicate sequences from promoter data.
         2.	Generate shuffle data from promoter sequences.
         3.	Perform k-merization.
