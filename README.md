@@ -72,7 +72,7 @@ jupyter notebook
         df['Y'].value_counts().plot('bar',color = 'turquoise')
         df.describe()
 
-##Drop Duplicates: 
+## Drop Duplicates: 
 
         labels = df['Y']
         X = df['X']
@@ -83,7 +83,7 @@ jupyter notebook
         df_final.columns = ['Y','X']
         df_final['Y'].value_counts().plot('bar',color = 'orange')
 
-##Choosing Training sample count:
+## Choosing Training sample count:
    
         limit = 35000
         df_final_promoter= df_final[df_final['Y'] == 'Fungus_Promoter'][:limit]
@@ -123,7 +123,7 @@ jupyter notebook
         X_train,X_test,Y_train,Y_test = train_test_split(sequences_matrix,Y,test_size=0.10)
 
         
-##CNN architecture:
+## CNN architecture:
         
         model = Sequential()
         model.add(Embedding(vocab_size,128,input_length=max_len))
@@ -142,7 +142,7 @@ jupyter notebook
         model.add(Flatten())
         model.add(Dense(1, activation='sigmoid'))
 
-##LSTM architecture:
+## LSTM architecture:
 
         model = Sequential()
         model.add(Embedding(vocab_size, 50 ,input_length=max_len))
@@ -151,7 +151,7 @@ jupyter notebook
         model.add(Dropout(0.5))
         model.add(Dense(1, activation=’sigmoid’))
     
-##For classification: 
+## For classification: 
         model.summary()
         model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
         import time
