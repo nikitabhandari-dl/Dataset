@@ -18,8 +18,7 @@ jupyter notebook
         CNN (from keras.layers.convolutional)
         6.	Performance evaluation  
 
-#Code snippets to develop a framework
-
+## Code snippets
 ## import files
         import pandas as pd
         import numpy as np
@@ -42,7 +41,7 @@ jupyter notebook
         from keras.callbacks import EarlyStopping
         import tensorflow as tf
 
-## 
+## Processing of data
         df_promoter = pd.read_csv("read file",names = ['Y', 'X'])
         df_promoter_shuffle = pd.read_csv("read file",names = ['Y', 'X'])
         df_promoter_shuffle.drop(df_promoter_shuffle.index[0])
