@@ -198,3 +198,15 @@ jupyter notebook
         Loss function: sparse_categorical_crossentropy
         Optimizer: adam
         number of epochs: 10
+        
+##Hyperparameters tuned emperically:
+        
+        Network layers
+        Filter size
+        Activation function
+        Kernel-regularization
+        Loss function Optimizer, 
+        Number of epochs
+        Learning Rate
+        Decay Rate
+        Batch Size
