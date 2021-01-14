@@ -58,11 +58,11 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
             return ''.join(length)
 
         k_let = 1
-        df_terminator = df_promoter_shuffle['X'].apply(shuffler,args = [k_let])
-        df_terminator = pd.concat([df_promoter_shuffle['Y'], df_terminator],axis=1)
-        df_terminator.head()
+        df_shuf = df_promoter_shuffle['X'].apply(shuffler,args = [k_let])
+        df_shuf = pd.concat([df_promoter_shuffle['Y'], df_shuf],axis=1)
+        df_shuf.head()
 
-        df = pd.concat([df_promoter,df_terminator],axis=0)
+        df = pd.concat([df_promoter,df_shuf],axis=0)
         df = df[df['X'].str.len() == 1000]
         df.shape
         
@@ -90,8 +90,8 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
    
         limit = 35000
         df_final_promoter= df_final[df_final['Y'] == 'Fungus_Promoter'][:limit]
-        df_final_terminator=df_final[df_final['Y'] == 'Shuffled Promoters'][:limit]
-        df_final = pd.concat([df_final_promoter,df_final_terminator],ignore_index=True)
+        df_final_shuf=df_final[df_final['Y'] == 'Shuffled Promoters'][:limit]
+        df_final = pd.concat([df_final_promoter,df_final_shuf],ignore_index=True)
         df_final.tail() # New dataframe with recurring samples eliminated
         df_final.head()
         
@@ -160,7 +160,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         import time
         start_time=time.time()
         print("Training Time Starts")
-        model.fit(X_train,Y_train,batch_size=128,epochs=10,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
+        model.fit(X_train,Y_train,batch_size=#,epochs=#,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
         xx=(time.time()) - (start_time)
         print(xx)
 
@@ -169,27 +169,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
 
         print(confuse)
 
-        TP=confuse[1][1]
-        FP=confuse[0][1]
-        FN=confuse[1][0]
-        TN=confuse[0][0]
-
-        accuracy= (TP + TN) / (TP + TN + FP + FN)
-        precision = TP / (TP + FP)
-        recall = TP / (TP + FN)
-        F=2*(precision * recall)/(precision + recall)
-        specificity= TN / (TN + FP) 
-        Error_Rate= (FP + FN)/(TP + FP + TN + FN)
-        CC=((TP*TN)-(FP*FN))/(math.sqrt((TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)))
-
-        print("accuracy {:0.2f}".format(accuracy))
-        print("Precision {:0.2f}".format(precision))
-        print("Recall/Sensitivity {:0.2f}".format(recall))
-        print("F1 Score {:0.2f}".format(F))
-        print("Specificity {:0.2f}".format(specificity))
-        print("Error_Rate {:0.2f}".format(Error_Rate))
-        print("correlation Coefficient {:0.2f}".format(CC))
-   
+        
 ##For binary classification:     
          
         Loss function: binary_crossentropy,
@@ -202,14 +182,3 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         Optimizer: adam
         number of epochs: 10
         
-##Hyperparameters tuned emperically:
-        
-        Network layers
-        Filter size
-        Activation function
-        Kernel-regularization
-        Loss function Optimizer, 
-        Number of epochs
-        Learning Rate
-        Decay Rate
-        Batch Size
