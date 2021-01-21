@@ -21,6 +21,7 @@ jupyter notebook
 ## Clean and Preprocessed Data Link
 https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sharing
 
+
 ## Code snippets
 ## import files
         import pandas as pd
@@ -44,7 +45,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         from keras.callbacks import EarlyStopping
         import tensorflow as tf
 
-## Processing of data
+## Reading and shuffling of data
         df_promoter = pd.read_csv("read file",names = ['Y', 'X'])
         df_promoter_shuffle = pd.read_csv("read file",names = ['Y', 'X'])
         df_promoter_shuffle.drop(df_promoter_shuffle.index[0])
@@ -57,25 +58,12 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
             np.random.shuffle(length)
             return ''.join(length)
 
-        k_let = 1
+        k_let = #
         df_shuf = df_promoter_shuffle['X'].apply(shuffler,args = [k_let])
         df_shuf = pd.concat([df_promoter_shuffle['Y'], df_shuf],axis=1)
         df_shuf.head()
-
-        df = pd.concat([df_promoter,df_shuf],axis=0)
-        df = df[df['X'].str.len() == 1000]
-        df.shape
         
-        print(df['X'].str.len().value_counts())  # All the sequences have equal length
-        df.reset_index(inplace = True)
-        df.drop(['index'], axis = 1, inplace= True)
-        df.tail()
-        df.head()
-        
-        df['Y'].value_counts().plot('bar',color = 'turquoise')
-        df.describe()
-
-## Drop Duplicates: 
+ ## Drop Duplicates: 
 
         labels = df['Y']
         X = df['X']
@@ -87,7 +75,6 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         df_final['Y'].value_counts().plot('bar',color = 'orange')
 
 ## Choosing Training sample count:
-   
         limit = 35000
         df_final_promoter= df_final[df_final['Y'] == 'Fungus_Promoter'][:limit]
         df_final_shuf=df_final[df_final['Y'] == 'Shuffled Promoters'][:limit]
@@ -95,38 +82,13 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         df_final.tail() # New dataframe with recurring samples eliminated
         df_final.head()
         
-        df_final.reset_index(inplace = True)
-        df_final.drop(['index'], axis = 1, inplace= True)
-        df_final['Y'].value_counts().plot('bar',color = 'orange')
-        
+ ## k-mer creation       
         def getKmers(X, size=4):
                 return [X[x:x+size].lower() for x in range(len(X) - size + 1)]
         df_final['words']=df_final.apply(lambda x: getKmers(x['X']), axis=1)
         df_final.drop('X',axis=1, inplace= True)
-        
-        df_final.head()
-        
-        Y = df_final.Y
-        le = LabelEncoder()
-        Y = le.fit_transform(Y)
-        df_texts = list(df_final['words'])
-        for item in range(len(df_texts)):
-            df_texts[item] = ' '.join(df_texts[item])
-        X=df_texts
-        max_len = 997
-        tok = Tokenizer(num_words=None)
-        tok.fit_on_texts(X)
-        vocab_size = len(tok.word_index) + 1
-        sequences = tok.texts_to_sequences(X)
-        sequences_matrix = sequence.pad_sequences(sequences,maxlen=None)
-        
-        print(sequences_matrix.shape)
-        le.inverse_transform([0,1])
-
-        X_train,X_test,Y_train,Y_test = train_test_split(sequences_matrix,Y,test_size=0.10)
-
-        
-## CNN architecture:
+      
+ ## CNN architecture:
         
         model = Sequential()
         model.add(Embedding(vocab_size,128,input_length=max_len))
@@ -154,29 +116,14 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         model.add(Dropout(0.5))
         model.add(Dense(1, activation=’sigmoid’))
     
-## For classification: 
-        model.summary()
-        model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
-        import time
-        start_time=time.time()
-        print("Training Time Starts")
-        model.fit(X_train,Y_train,batch_size=#,epochs=#,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
-        xx=(time.time()) - (start_time)
-        print(xx)
-
-        y_pred1 = model.predict(X_test)
-        confuse = confusion_matrix(Y_test, y_pred1.round())
-
-        print(confuse)
-
-        
-##For binary classification:     
+       
+## For binary classification:     
          
         Loss function: binary_crossentropy,
         Optimizer: adam
         number of epochs: 10
 
-##For multispecies classification: 
+## For multispecies classification: 
 
         Loss function: sparse_categorical_crossentropy
         Optimizer: adam
