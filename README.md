@@ -24,6 +24,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
 
 #Code snippets
 #import files
+
         import pandas as pd
         import numpy as np
         from numpy.random import shuffle
@@ -46,6 +47,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         import tensorflow as tf
 
 #Reading and shuffling of data
+
         df_promoter = pd.read_csv("read file",names = ['Y', 'X'])
         df_promoter_shuffle = pd.read_csv("read file",names = ['Y', 'X'])
         df_promoter_shuffle.drop(df_promoter_shuffle.index[0])
@@ -75,6 +77,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         df_final['Y'].value_counts().plot('bar',color = 'orange')
 
 #Choosing Training sample count:
+
         limit = 35000
         df_final_promoter= df_final[df_final['Y'] == 'Fungus_Promoter'][:limit]
         df_final_shuf=df_final[df_final['Y'] == 'Shuffled Promoters'][:limit]
@@ -82,7 +85,8 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         df_final.tail() # New dataframe with recurring samples eliminated
         df_final.head()
         
- #k-mer creation       
+ #k-mer creation
+ 
         def getKmers(X, size=4):
                 return [X[x:x+size].lower() for x in range(len(X) - size + 1)]
         df_final['words']=df_final.apply(lambda x: getKmers(x['X']), axis=1)
