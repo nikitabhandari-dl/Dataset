@@ -18,12 +18,12 @@ jupyter notebook
         CNN (from keras.layers.convolutional)
         6.	Performance evaluation  
 
-## Clean and Preprocessed Data Link
+#Clean and Preprocessed Data Link
 https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sharing
 
 
-## Code snippets
-## import files
+#Code snippets
+#import files
         import pandas as pd
         import numpy as np
         from numpy.random import shuffle
@@ -45,7 +45,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         from keras.callbacks import EarlyStopping
         import tensorflow as tf
 
-## Reading and shuffling of data
+#Reading and shuffling of data
         df_promoter = pd.read_csv("read file",names = ['Y', 'X'])
         df_promoter_shuffle = pd.read_csv("read file",names = ['Y', 'X'])
         df_promoter_shuffle.drop(df_promoter_shuffle.index[0])
@@ -63,7 +63,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         df_shuf = pd.concat([df_promoter_shuffle['Y'], df_shuf],axis=1)
         df_shuf.head()
         
- ## Drop Duplicates: 
+#Drop Duplicates: 
 
         labels = df['Y']
         X = df['X']
@@ -74,7 +74,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         df_final.columns = ['Y','X']
         df_final['Y'].value_counts().plot('bar',color = 'orange')
 
-## Choosing Training sample count:
+#Choosing Training sample count:
         limit = 35000
         df_final_promoter= df_final[df_final['Y'] == 'Fungus_Promoter'][:limit]
         df_final_shuf=df_final[df_final['Y'] == 'Shuffled Promoters'][:limit]
@@ -82,13 +82,13 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         df_final.tail() # New dataframe with recurring samples eliminated
         df_final.head()
         
- ## k-mer creation       
+ #k-mer creation       
         def getKmers(X, size=4):
                 return [X[x:x+size].lower() for x in range(len(X) - size + 1)]
         df_final['words']=df_final.apply(lambda x: getKmers(x['X']), axis=1)
         df_final.drop('X',axis=1, inplace= True)
       
- ## CNN architecture:
+ #CNN architecture:
         
         model = Sequential()
         model.add(Embedding(vocab_size,128,input_length=max_len))
@@ -107,7 +107,7 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         model.add(Flatten())
         model.add(Dense(1, activation='sigmoid'))
 
-## LSTM architecture:
+#LSTM architecture:
 
         model = Sequential()
         model.add(Embedding(vocab_size, 50 ,input_length=max_len))
@@ -117,13 +117,13 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         model.add(Dense(1, activation=’sigmoid’))
     
        
-## For binary classification:     
+#For binary classification:     
          
         Loss function: binary_crossentropy,
         Optimizer: adam
         number of epochs: 10
 
-## For multispecies classification: 
+#For multispecies classification: 
 
         Loss function: sparse_categorical_crossentropy
         Optimizer: adam
