@@ -61,34 +61,6 @@ https://drive.google.com/drive/folders/1VQ4r2SHGMmFMAq52oDhqYWz7cpTboeHE?usp=sha
         df_final['words']=df_final.apply(lambda x: getKmers(x['X']), axis=1)
         df_final.drop('X',axis=1, inplace= True)
       
- #CNN architecture:
-        
-        model = Sequential()
-        model.add(Embedding(vocab_size,128,input_length=max_len))
-        model.add(Conv1D(filters=128, kernel_size=5,padding='same'))
-        model.add(MaxPooling1D(pool_size=4))
-        model.add(Conv1D(filters=64, kernel_size=5, padding='same'))
-        model.add(MaxPooling1D(pool_size=4))
-        model.add(Conv1D(filters=32, kernel_size=5, padding='same'))
-        model.add(MaxPooling1D(pool_size=4))
-        model.add(Dense(1024, activation='relu'))
-        model.add(Dropout(0.2))
-        model.add(Dense(512, activation='relu'))
-        model.add(Dropout(0.2))
-        model.add(Dense(128, activation='relu'))
-        model.add(Dropout(0.2))
-        model.add(Flatten())
-        model.add(Dense(1, activation='sigmoid'))
-
-#LSTM architecture:
-
-        model = Sequential()
-        model.add(Embedding(vocab_size, 50 ,input_length=max_len))
-        model.add(LSTM(128))
-        model.add(Dense(64, activation=’relu’))
-        model.add(Dropout(0.5))
-        model.add(Dense(1, activation=’sigmoid’))
-    
        
 #For binary classification:     
          
