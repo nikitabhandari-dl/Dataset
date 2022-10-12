@@ -57,7 +57,8 @@ X_train['words']=X_train.apply(lambda x: getKmers(x['X']), axis=1)
 X_train.drop('X',axis=1, inplace= True)
 
 ## Frequnecy-based Tokenization
-df_texts = list(df_train['words'])
+Train data:
+df_texts = list(X_train['words'])
 for item in range(len(df_texts)):
     df_texts[item] = ' '.join(df_texts[item])
 X=df_texts
@@ -67,6 +68,14 @@ tok.fit_on_texts(X)
 vocab_size = len(tok.word_index) + 1
 sequences = tok.texts_to_sequences(X)
 sequences_matrix = sequence.pad_sequences(sequences,maxlen=None)
+
+##test words tokenization
+df_test_texts = list(X_test['words'])
+for item in range(len(df_test_texts)):
+    df_test_texts[item] = ' '.join(df_test_texts[item])
+X1=df_test_texts
+sequences_test = tok.texts_to_sequences(X1)
+sequences_matrix_test = sequence.pad_sequences(sequences_test,maxlen=None)
 
 ## training models
 #CNN
