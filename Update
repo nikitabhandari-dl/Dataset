@@ -34,7 +34,7 @@ df_shuff = df_promoter_shuffle['X'].apply(shuffler,args = [k_let])
 df_shuff = pd.concat([df_promoter_shuffle['Y'], df_shuff],axis=1)
 df_shuff.head()
 
-##Concate promoter sequences and shuffled sequences
+##Concat promoter sequences and shuffled sequences
 df = pd.concat([df_promoter,df_shuff],axis=0)
 df = df[df['X'].str.len() == 1000]
 df.shape
@@ -48,7 +48,7 @@ data = np.array(df)
 df_final = pd.DataFrame(data[idx])
 
 ## Train test split
-X_train,X_test,Y_train,Y_test = train_test_split(df_final,Y,test_size=0.10)
+X_train,X_test,Y_train,Y_test = train_test_split(df_final, Y, stratify=Y, test_size=0.10)
 
 ## k-merization on train
 def getKmers(X, size=4):
