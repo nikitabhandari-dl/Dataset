@@ -1,1 +1,133 @@
 
+##imports
+import pandas as pd
+import numpy as np
+from numpy.random import shuffle
+import math  
+from keras.preprocessing.text import Tokenizer
+from sklearn.preprocessing import LabelEncoder
+from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier, RandomForestClassifier
+from sklearn.metrics import accuracy_score,  confusion_matrix, classification_report, roc_auc_score, roc_curve, precision_score
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn.metrics import recall_score
+from sklearn.metrics import roc_auc_score, roc_curve
+from sklearn.preprocessing import OneHotEncoder
+from keras.models import Sequential
+from keras.layers.convolutional import Conv1D, MaxPooling1D
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.callbacks import EarlyStopping
+import tensorflow as tf
+from keras.layers import Embedding
+
+##Read Data
+df_promoter = pd.read_csv("dataset file",names = ['Y', 'X'])
+
+## Shuffle Snipet
+def shuffler(sequence, k_let):
+    length = [sequence[i:i+k_let] for i in range(0,len(sequence),k_let)]
+    np.random.shuffle(length)
+    return ''.join(length)
+k_let = 1
+df_shuff = df_promoter_shuffle['X'].apply(shuffler,args = [k_let])
+df_shuff = pd.concat([df_promoter_shuffle['Y'], df_shuff],axis=1)
+df_shuff.head()
+
+##Concate promoter sequences and shuffled sequences
+df = pd.concat([df_promoter,df_shuff],axis=0)
+df = df[df['X'].str.len() == 1000]
+df.shape
+
+## Remove Duplicate
+labels = df['Y']
+X = df['X']
+X_drop_dup = X.drop_duplicates()
+idx = X_drop_dup.index
+data = np.array(df)
+df_final = pd.DataFrame(data[idx])
+
+## Train test split
+X_train,X_test,Y_train,Y_test = train_test_split(df_final,Y,test_size=0.10)
+
+## k-merization on train
+def getKmers(X, size=4):
+    return [X[x:x+size].lower() for x in range(len(X) - size + 1)]
+X_train['words']=X_train.apply(lambda x: getKmers(x['X']), axis=1)
+X_train.drop('X',axis=1, inplace= True)
+
+## Frequnecy-based Tokenization
+df_texts = list(df_train['words'])
+for item in range(len(df_texts)):
+    df_texts[item] = ' '.join(df_texts[item])
+X=df_texts
+max_len = 100-k_mersize+1 #k-mer size: 2, 4, 8
+tok = Tokenizer(num_words=None)
+tok.fit_on_texts(X)
+vocab_size = len(tok.word_index) + 1
+sequences = tok.texts_to_sequences(X)
+sequences_matrix = sequence.pad_sequences(sequences,maxlen=None)
+
+## training models
+#CNN
+model = Sequential()
+model.add(Embedding(vocab_size,128,input_length=max_len))
+model.add(Conv1D(filters=128, kernel_size=5,padding='same'))
+model.add(MaxPooling1D(pool_size=4))
+model.add(Conv1D(filters=64, kernel_size=5, padding='same'))
+model.add(MaxPooling1D(pool_size=4))
+model.add(Conv1D(filters=32, kernel_size=5, padding='same'))
+model.add(MaxPooling1D(pool_size=4))
+model.add(Dense(1024, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Flatten())
+model.add(Dense(1, activation='sigmoid'))
+
+#LSTM
+def RNN():
+    inputs = Input(name='inputs',shape=[max_len])
+    layer = Embedding(vocab_size,50,input_length=max_len)(inputs)
+    layer = LSTM(128)(layer)
+    layer = Dense(64,name='FC1')(layer)
+    layer = Activation('relu')(layer)
+    layer = Dropout(0.5)(layer)
+    layer = Dense(1,name='out_layer')(layer)
+    layer = Activation('sigmoid')(layer)
+    model = Model(inputs=inputs,outputs=layer)
+    return model
+model = RNN()
+
+#RF
+model = RandomForestClassifier()
+##Evaluation
+y_pred1 = model.predict(X_test)
+confuse = confusion_matrix(Y_test, y_pred1.round())
+
+TP=confuse[1][1]
+FP=confuse[0][1]
+FN=confuse[1][0]
+TN=confuse[0][0]
+
+accuracy= (TP + TN) / (TP + TN + FP + FN)
+precision = TP / (TP + FP)
+recall = TP / (TP + FN)
+F=2*(precision * recall)/(precision + recall)
+specificity= TN / (TN + FP) 
+Error_Rate= (FP + FN)/(TP + FP + TN + FN)
+CC=((TP*TN)-(FP*FN))/(math.sqrt((TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)))
+
+print("accuracy {:0.2f}".format(accuracy))
+print("Precision {:0.2f}".format(precision))
+print("Recall/Sensitivity {:0.2f}".format(recall))
+print("F1 Score {:0.2f}".format(F))
+print("Specificity {:0.2f}".format(specificity))
+print("Error_Rate {:0.2f}".format(Error_Rate))
+print("correlation Coefficient {:0.2f}".format(CC))
+
+
+    
+
